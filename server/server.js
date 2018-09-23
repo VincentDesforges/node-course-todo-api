@@ -30,6 +30,8 @@ app.listen(3000, () => {
   console.log('Started listening on port 3000');
 });
 
+module.exports = {app};
+
 // Old code: ---------------------------------
 
 // const newTodo = new Todo({
