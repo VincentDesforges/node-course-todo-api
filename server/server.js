@@ -8,6 +8,7 @@ const {ObjectID} = require('mongodb');
 const {mongoose} = require('./db/mongoose');
 const {Todo} = require('./models/todo');
 const {User} = require('./models/user');
+const {authenticate} = require('./middleware/authenticate');
 
 const app = express();
 const port = process.env.PORT;
@@ -114,41 +115,13 @@ app.post('/users', (req, res) => {
   });
 });
 
+// GET /users/me
+app.get('/users/me', authenticate, (req, res) => {
+  res.send(req.user);
+});
+
 app.listen(port, () => {
   console.log(`Started listening on port ${port}`);
 });
 
 module.exports = {app};
-
-// Old code: ---------------------------------
-// https://pacific-anchorage-24324.herokuapp.com/
-
-// const newTodo = new Todo({
-//   text: 'Cook dinner'
-// });
-
-// const newTodo = new Todo({
-//   text: 'Feed the cat',
-//   completed: false,
-//   completedAt: 123
-// });
-
-// const newTodo = new Todo({
-//   text: '  Edit video   '
-// });
-
-// newTodo.save().then((doc) => {
-//   console.log('Saved...', doc)
-// }, e => {
-//   console.log('Unable to save', e)
-// });
-
-// const user = new User({
-//   email: 'andrew@example.com      '
-// });
-
-// user.save().then(doc => {
-//   console.log("User saved", doc);
-// }, err => {
-//   console.log("Unable to save", err);
-// });
